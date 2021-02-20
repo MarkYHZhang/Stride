@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="fab_margin">15dp</dimen>
+    <dimen name="location_toggle_translation">65dp</dimen>
+    <dimen name="scan_qr_translation">130dp</dimen>
+</resources>
