@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -104,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
             SharedPreferences sharedPref = getSharedPreferences(
                     getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
             boolean prevState = sharedPref.getBoolean(getString(R.string.location_service_on), false);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putBoolean(getString(R.string.location_service_on), !prevState);
@@ -118,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                 pm.setComponentEnabledSetting(receiver,
                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                         PackageManager.DONT_KILL_APP);
+
+                LocAlarm.cancelAlarm(this);
             } else {
                 locationToggle.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.design_default_color_secondary)));
                 Toast.makeText(this, "Location Tracking Enabled", Toast.LENGTH_SHORT).show();
@@ -127,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
                 pm.setComponentEnabledSetting(receiver,
                         PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                         PackageManager.DONT_KILL_APP);
+
+                LocAlarm.setAlarm(this);
             }
         });
     }
